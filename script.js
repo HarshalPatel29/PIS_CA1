@@ -1,5 +1,15 @@
 console.log("Working");
 
+const deletepassword = (website) =>{
+    let data = localStorage.getItem("passwords");
+    let arr = JSON.parse(data);
+    arrUpdated = arr.filter((e)=>{
+    return e.website != website
+    })
+    localStorage.setItem("passwords", JSON.stringify(arrUpdated))  
+    alert(`Successfully deleted ${website}'s password`)
+};
+
 // Logic to fill the table
 const showPasswords = () => {
     let tb = document.querySelector("table")
