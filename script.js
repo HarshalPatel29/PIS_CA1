@@ -44,7 +44,7 @@ const showPasswords = () => {
         tb.innerHTML = tb.innerHTML + str
 
     }
-    website.value = ""
-    username.value = ""
-    password.value = ""
+    // website.value = ""
+    // username.value = ""
+    // password.value = ""
 }
