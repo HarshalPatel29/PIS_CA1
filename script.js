@@ -6,8 +6,8 @@ const deletepassword = (website) =>{
     arrUpdated = arr.filter((e)=>{
     return e.website != website
     })
-    localStorage.setItem("passwords", JSON.stringify(arrUpdated))  
-    
+    localStorage.setItem("passwords", JSON.stringify(arrUpdated)); 
+    alert(`Successfully deleted ${website}'s password`);
 };
 
 // Logic to fill the table
