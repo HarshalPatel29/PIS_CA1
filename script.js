@@ -23,6 +23,7 @@ const showPasswords = () => {
         <th>Username</th>
         <th>Password</th>
         <th>Delete</th>
+        <th>Edit</th>
     </tr> `
         let arr = JSON.parse(data);
         let str = ""
@@ -37,6 +38,7 @@ const showPasswords = () => {
     <td>${maskPassword(element.password)} <img onclick="copyText('${element.password}')" src="./copy.svg" alt="Copy Button" width="10" width="10" height="10">
     </td>
     <td><button class="btnsm" onclick="deletePassword('${element.website}')">Delete</button></td>
+    <td><button class="btnsm" onclick="editPassword('${element.website}', '${element.username}', '${element.password}', '${element.comment}')">Edit</button></td>
     </tr>`
         }
         tb.innerHTML = tb.innerHTML + str
