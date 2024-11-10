@@ -1,5 +1,13 @@
 console.log("Working");
 
+function maskPassword(pass){
+    let str = ""
+    for (let index = 0; index < pass.length; index++) {
+        str  += "*"
+    }
+    return str
+}
+
 const deletePassword = (website)=>{
     let data = localStorage.getItem("passwords")
     let arr = JSON.parse(data);
