@@ -63,5 +63,14 @@ document.querySelector(".btn").addEventListener("click", (e) => {
     let passwords = localStorage.getItem("passwords")
     console.log(passwords)
     showPasswords()
-})
+    if (passwords == null) {
+        let json = []
+        json.push({website: website.value, username: username.value, password: password.value, comment:comment.value })
+        localStorage.setItem("passwords", JSON.stringify(json))
+    }
+    else {
+        let json = JSON.parse(localStorage.getItem("passwords"))
+        json.push({ website: website.value, username: username.value, password: password.value, comment:comment.value })
+        localStorage.setItem("passwords", JSON.stringify(json))
+    }
 })
