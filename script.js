@@ -54,3 +54,9 @@ const showPasswords = () => {
     // username.value = ""
     // password.value = ""
 }
+
+showPasswords()
+document.querySelector(".btn").addEventListener("click", (e) => {
+    e.preventDefault()
+    console.log("Clicked....")
+})
