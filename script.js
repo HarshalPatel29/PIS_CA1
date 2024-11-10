@@ -50,9 +50,9 @@ const showPasswords = () => {
         tb.innerHTML = tb.innerHTML + str
 
     }
-    // website.value = ""
-    // username.value = ""
-    // password.value = ""
+    website.value = ""
+    username.value = ""
+    password.value = ""
 }
 
 showPasswords()
@@ -62,7 +62,6 @@ document.querySelector(".btn").addEventListener("click", (e) => {
     console.log(username.value, password.value)
     let passwords = localStorage.getItem("passwords")
     console.log(passwords)
-    showPasswords()
     if (passwords == null) {
         let json = []
         json.push({website: website.value, username: username.value, password: password.value, comment:comment.value })
@@ -75,4 +74,5 @@ document.querySelector(".btn").addEventListener("click", (e) => {
         alert("Password Saved");
         localStorage.setItem("passwords", JSON.stringify(json))
     }
+    showPasswords()
 })
