@@ -10,6 +10,12 @@ const deletepassword = (website) =>{
     alert(`Successfully deleted ${website}'s password`);
 };
 
+const editPassword = (website, username, password, comment) => {
+
+    document.getElementById("website").value = website;
+    document.getElementById("username").value = username;
+    document.getElementById("password").value = password;
+  };
 // Logic to fill the table
 const showPasswords = () => {
     let tb = document.querySelector("table")
