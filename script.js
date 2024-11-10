@@ -1,21 +1,26 @@
 console.log("Working");
 
-const deletepassword = (website) =>{
-    let data = localStorage.getItem("passwords");
+const deletePassword = (website)=>{
+    let data = localStorage.getItem("passwords")
     let arr = JSON.parse(data);
     arrUpdated = arr.filter((e)=>{
-    return e.website != website
+        return e.website != website
     })
-    localStorage.setItem("passwords", JSON.stringify(arrUpdated)); 
-    alert(`Successfully deleted ${website}'s password`);
-};
+    localStorage.setItem("passwords", JSON.stringify(arrUpdated))
+    alert(`Successfully deleted ${website}'s password`)
+    showPasswords()
 
-const editPassword = (website, username, password, comment) => {
+}
+
+const editPassword = (website, username, password) => {
 
     document.getElementById("website").value = website;
     document.getElementById("username").value = username;
     document.getElementById("password").value = password;
+    
   };
+  
+
 // Logic to fill the table
 const showPasswords = () => {
     let tb = document.querySelector("table")
@@ -44,7 +49,7 @@ const showPasswords = () => {
     <td>${maskPassword(element.password)} <img onclick="copyText('${element.password}')" src="./copy.svg" alt="Copy Button" width="10" width="10" height="10">
     </td>
     <td><button class="btnsm" onclick="deletePassword('${element.website}')">Delete</button></td>
-    <td><button class="btnsm" onclick="editPassword('${element.website}', '${element.username}', '${element.password}', '${element.comment}')">Edit</button></td>
+    <td><button class="btnsm" onclick="editPassword('${element.website}', '${element.username}', '${element.password}')">Edit</button></td>
     </tr>`
         }
         tb.innerHTML = tb.innerHTML + str
@@ -54,7 +59,6 @@ const showPasswords = () => {
     username.value = ""
     password.value = ""
 }
-
 showPasswords()
 document.querySelector(".btn").addEventListener("click", (e) => {
     e.preventDefault()
@@ -64,13 +68,13 @@ document.querySelector(".btn").addEventListener("click", (e) => {
     console.log(passwords)
     if (passwords == null) {
         let json = []
-        json.push({website: website.value, username: username.value, password: password.value, comment:comment.value })
+        json.push({website: website.value, username: username.value, password: password.value})
         alert("Password Saved");
         localStorage.setItem("passwords", JSON.stringify(json))
     }
     else {
         let json = JSON.parse(localStorage.getItem("passwords"))
-        json.push({ website: website.value, username: username.value, password: password.value, comment:comment.value })
+        json.push({ website: website.value, username: username.value, password: password.value})
         alert("Password Saved");
         localStorage.setItem("passwords", JSON.stringify(json))
     }
