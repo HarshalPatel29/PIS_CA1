@@ -8,7 +8,11 @@ function copyText(txt) {
           setTimeout(() => {
             document.getElementById("alert").style.display = "none"
           }, 2000);
-         }
+         },
+         () => {
+            /* clipboard write failed */
+            alert("Clipboard copying failed")
+          },
     );
 }
 
