@@ -5,8 +5,10 @@ function copyText(txt) {
         () => {
           /* clipboard successfully set */
           document.getElementById("alert").style.display = "inline"
-          
-        }
+          setTimeout(() => {
+            document.getElementById("alert").style.display = "none"
+          }, 2000);
+         }
     );
 }
 
