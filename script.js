@@ -73,8 +73,9 @@ const showPasswords = () => {
     </td>
     <td>${maskPassword(element.password)} <img onclick="copyText('${element.password}')" src="./copy.svg" alt="Copy Button" width="10" width="10" height="10">
     </td>
+    <td>${element.comment}</td>
     <td><button class="btnsm" onclick="deletePassword('${element.website}')">Delete</button></td>
-    <td><button class="btnsm" onclick="editPassword('${element.website}', '${element.username}', '${element.password}')">Edit</button></td>
+    <td><button class="btnsm" onclick="editPassword('${element.website}', '${element.username}', '${element.password}', '${element.comment}')">Edit</button></td>
     </tr>`
         }
         tb.innerHTML = tb.innerHTML + str
@@ -94,13 +95,13 @@ document.querySelector(".btn").addEventListener("click", (e) => {
     console.log(passwords)
     if (passwords == null) {
         let json = []
-        json.push({website: website.value, username: username.value, password: password.value})
+        json.push({website: website.value, username: username.value, password: password.value, comment:comment.value})
         alert("Password Saved");
         localStorage.setItem("passwords", JSON.stringify(json))
     }
     else {
         let json = JSON.parse(localStorage.getItem("passwords"))
-        json.push({ website: website.value, username: username.value, password: password.value})
+        json.push({ website: website.value, username: username.value, password: password.value, comment:comment.value})
         alert("Password Saved");
         localStorage.setItem("passwords", JSON.stringify(json))
     }
