@@ -42,8 +42,7 @@ const editPassword = (website, username, password, comment) => {
     document.getElementById("username").value = username;
     document.getElementById("password").value = password;
     document.getElementById("comment").value = comment;
-    
-  };
+    };
   
 
 // Logic to fill the table
