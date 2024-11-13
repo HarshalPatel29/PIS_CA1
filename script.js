@@ -1,5 +1,15 @@
 console.log("Working");
 
+function copyText(txt) {
+    navigator.clipboard.writeText(txt).then(
+        () => {
+          /* clipboard successfully set */
+          document.getElementById("alert").style.display = "inline"
+          
+        }
+    );
+}
+
 function maskPassword(pass){
     let str = ""
     for (let index = 0; index < pass.length; index++) {
@@ -63,9 +73,9 @@ const showPasswords = () => {
         tb.innerHTML = tb.innerHTML + str
 
     }
-    // website.value = ""
-    // username.value = ""
-    // password.value = ""
+    website.value = ""
+    username.value = ""
+    password.value = ""
 }
 showPasswords()
 document.querySelector(".btn").addEventListener("click", (e) => {
