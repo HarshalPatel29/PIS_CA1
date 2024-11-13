@@ -36,11 +36,12 @@ const deletePassword = (website)=>{
 
 }
 
-const editPassword = (website, username, password) => {
+const editPassword = (website, username, password, comment) => {
 
     document.getElementById("website").value = website;
     document.getElementById("username").value = username;
     document.getElementById("password").value = password;
+    document.getElementById("comment").value = comment;
     
   };
   
