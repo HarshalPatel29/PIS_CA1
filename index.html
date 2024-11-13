@@ -18,44 +18,51 @@
         </ul>
     </nav>
     <div class="Container">
-<h1>Password Manager</h1>
-<p>Securely store and manage your passwords in one place. Welcome to your Personal Password Manager !</p>
-<h2>Your Passwords<span id="alert"></span></h2> 
+        <h1>Password Manager</h1>
+        <p>Securely store and manage your passwords in one place. Welcome to your Personal Password Manager !</p>
+        <h2>Your Passwords<span id="alert"></span></h2>
 
- 
 
-<table>
-<tr>
-    <th>Website</th>
-    <th>Username</th>
-    <th>Password</th>
-    <th>Delete</th>
-    <th>Edit</th>
-</tr>
-</table>
 
-<h2>Add a Password</h2>
-<form action="/submit" method="post">
+        <table>
+            <tr>
+                <th>Website</th>
+                <th>Username</th>
+                <th>Password</th>
+                <th>Comment</th>
+                <th>Delete</th>
+                <th>Edit</th>
+            </tr>
+        </table>
 
-    <!-- Text input for website -->
-    <label for="website">Website:</label>
-    <input type="text" id="website" name="website" required>
-    <br><br>
+        <h2>Add a Password</h2>
+        <form action="/submit" method="post">
 
-    <!-- Text input for username -->
-    <label for="username">Username:</label>
-    <input type="text" id="username" name="username" required>
-    <br><br>
+            <!-- Text input for website -->
+            <label for="website">Website:</label>
+            <input type="text" id="website" name="website" required>
+            <br><br>
 
-    <!-- Password input -->
-    <label for="password", placeholder="Password">Password:</label>
-    <input type="password" id="password" name="password" required>
-    <br> 
-   
-      <!-- Submit button -->
-      <button class="btn" type="submit">Submit</button>
+            <!-- Text input for username -->
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+            <br><br>
 
-</form>
+            <!-- Password input -->
+            <label for="password" , placeholder="Password">Password:</label>
+            <input type="password" id="password" name="password" required>
+            <br>
+
+            <!-- Comment input -->
+            <br>
+            <label for="Comment">Comment:</label>
+            <input type="text" id="comment" name="comment">
+            <br>
+
+            <!-- Submit button -->
+            <button class="btn" type="submit">Submit</button>
+
+        </form>
 
     </div>
     <script src="script.js"></script>

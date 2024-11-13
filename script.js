@@ -57,6 +57,7 @@ const showPasswords = () => {
         <th>Website</th>
         <th>Username</th>
         <th>Password</th>
+        <th>Comment</th>
         <th>Delete</th>
         <th>Edit</th>
     </tr> `
@@ -82,6 +83,7 @@ const showPasswords = () => {
     website.value = ""
     username.value = ""
     password.value = ""
+    comment.value = ""
 }
 showPasswords()
 document.querySelector(".btn").addEventListener("click", (e) => {
