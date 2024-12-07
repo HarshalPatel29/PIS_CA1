@@ -13,8 +13,9 @@ const dbName = 'myProject';
 
 const port = 3000
 
+// index.html
 app.get('/', (req, res) => {
-  res.send('Hello World!')
+  res.sendFile(path.join(__dirname, 'index.html'));
 })
 
 app.listen(port, () => {
