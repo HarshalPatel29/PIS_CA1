@@ -32,9 +32,12 @@ app.get('/passwords', async (req, res) => {
 
 // save a passwords
 app.post('/', async (req, res)=>{
-    const password = res.body
+    const {website, username, password, comment} = res.body;
     const db = client.db(dbName);
     const collection = db.collection('passwords');
+
+    // removes exiting entry for the website
+    await collection.deleteOne({website});
     const findResult = await collection.insertOne(password)
     res.send({ success : true, result: findResult})
 })
