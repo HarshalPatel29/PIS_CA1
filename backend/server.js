@@ -18,6 +18,7 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 })
 
+// get all the passwords
 app.get('/passwords', async (req, res) => {
     try {
         const db = client.db(dbName);
@@ -28,6 +29,15 @@ app.get('/passwords', async (req, res) => {
         res.status(500).json({ success: false, error: error.message });
     }
 });
+
+// save a passwords
+app.post('/', async (req, res)=>{
+    const password = res.body
+    const db = client.db(dbName);
+    const collection = db.collection('passwords');
+    const findResult = await collection.insertOne(password)
+    res.send({ success : true, result: findResult})
+})
 
 app.listen(port, () => {
   console.log(`PasX app listening on port http://localhost:${port}`)
