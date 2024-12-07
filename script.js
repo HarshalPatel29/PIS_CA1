@@ -17,11 +17,7 @@ function copyText(txt) {
 }
 
 function maskPassword(pass){
-    let str = ""
-    for (let index = 0; index < pass.length; index++) {
-        str  += "*"
-    }
-    return str
+   return "*".repeat(pass.length)
 }
 
 const deletePassword = (website)=>{
