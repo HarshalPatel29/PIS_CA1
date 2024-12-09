@@ -3,27 +3,27 @@ console.log("Working");
 function copyText(txt) {
     navigator.clipboard.writeText(txt).then(
         () => {
-          /* clipboard successfully set */
-          document.getElementById("alert").style.display = "inline"
-          setTimeout(() => {
-            document.getElementById("alert").style.display = "none"
-          }, 2000);
-         },
-         () => {
+            /* clipboard successfully set */
+            document.getElementById("alert").style.display = "inline"
+            setTimeout(() => {
+                document.getElementById("alert").style.display = "none"
+            }, 2000);
+        },
+        () => {
             /* clipboard write failed */
             alert("Clipboard copying failed")
-          },
+        },
     );
 }
 
-function maskPassword(pass){
-   return "*".repeat(pass.length)
+function maskPassword(pass) {
+    return "*".repeat(pass.length)
 }
 
-const deletePassword = (website)=>{
+const deletePassword = (website) => {
     let data = localStorage.getItem("passwords")
     let arr = JSON.parse(data);
-    arrUpdated = arr.filter((e)=>{
+    arrUpdated = arr.filter((e) => {
         return e.website != website
     })
     localStorage.setItem("passwords", JSON.stringify(arrUpdated))
@@ -38,8 +38,8 @@ const editPassword = (website, username, password, comment) => {
     document.getElementById("username").value = username;
     document.getElementById("password").value = password;
     document.getElementById("comment").value = comment;
-    };
-  
+};
+
 
 // Logic to fill the table
 const showPasswords = () => {
@@ -49,7 +49,7 @@ const showPasswords = () => {
         tb.innerHTML = "No Data To Show"
     }
     else {
-        tb.innerHTML =  `<tr>
+        tb.innerHTML = `<tr>
         <th>Website</th>
         <th>Username</th>
         <th>Password</th>
@@ -85,16 +85,16 @@ const showPasswords = () => {
 showPasswords()
 
 // Submit event listener
-document.querySelector(".btn").addEventListener("click", async (e)=> {
+document.querySelector(".btn").addEventListener("click", async (e) => {
     e.preventDefault()
 
     const website = document.getElementById("website").value;
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
     const comment = document.getElementById("comment").value;
-     
+
     // Validate inputs
-    if(!website || !username || !password){
+    if (!website || !username || !password) {
         alert("Please fill in the website, username and password")
         return;
     }
@@ -104,6 +104,13 @@ document.querySelector(".btn").addEventListener("click", async (e)=> {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ website, username, password, comment })
     });
+
+    // Check if the response is OK
+    if (!req.ok) {
+        const errorText = await req.text();
+        console.error("Save error response:", errorText);
+        throw new Error(`HTTP error! status: ${req.status}`);
+    }
 
     let res = await req.json();
     console.log("Save response:", res);
@@ -117,6 +124,7 @@ document.querySelector(".btn").addEventListener("click", async (e)=> {
         document.getElementById("username").value = "";
         document.getElementById("password").value = "";
         document.getElementById("comment").value = "";
+    } else {
+        alert("Failed to save password: " + res.error);
     }
-    showPasswords()
 })
