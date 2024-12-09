@@ -99,32 +99,37 @@ document.querySelector(".btn").addEventListener("click", async (e) => {
         return;
     }
 
-    let req = await fetch("/passwords", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ website, username, password, comment })
-    });
+    try {
+        let req = await fetch("/passwords", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ website, username, password, comment })
+        });
 
-    // Check if the response is OK
-    if (!req.ok) {
-        const errorText = await req.text();
-        console.error("Save error response:", errorText);
-        throw new Error(`HTTP error! status: ${req.status}`);
+        // Check if the response is OK
+        if (!req.ok) {
+            const errorText = await req.text();
+            console.error("Save error response:", errorText);
+            throw new Error(`HTTP error! status: ${req.status}`);
+        }
+
+        let res = await req.json();
+        console.log("Save response:", res);
+
+        if (res.success) {
+            alert("Password Saved");
+            showPasswords();
+
+            // Clear form fields
+            document.getElementById("website").value = "";
+            document.getElementById("username").value = "";
+            document.getElementById("password").value = "";
+            document.getElementById("comment").value = "";
+        } else {
+            alert("Failed to save password: " + res.error);
+        }
+    } catch (error) {
+        console.error("Save password error:", error)
+        alert("Failed to save password: " + error.message)
     }
-
-    let res = await req.json();
-    console.log("Save response:", res);
-
-    if (res.success) {
-        alert("Password Saved");
-        showPasswords();
-
-        // Clear form fields
-        document.getElementById("website").value = "";
-        document.getElementById("username").value = "";
-        document.getElementById("password").value = "";
-        document.getElementById("comment").value = "";
-    } else {
-        alert("Failed to save password: " + res.error);
-    }
-})
+});
