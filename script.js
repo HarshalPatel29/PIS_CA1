@@ -83,23 +83,38 @@ const showPasswords = () => {
     comment.value = ""
 }
 showPasswords()
-document.querySelector(".btn").addEventListener("click", (e) => {
+document.querySelector(".btn").addEventListener("click", async (e)=> {
     e.preventDefault()
     console.log("Clicked....")
     console.log(username.value, password.value)
-    let passwords = localStorage.getItem("passwords")
+    let req = fetch("http://localhost:3000/")
+    let passwords = await req.json()
     console.log(passwords)
-    if (passwords == null) {
-        let json = []
-        json.push({website: website.value, username: username.value, password: password.value, comment:comment.value})
+
+    let res = await req.json();
+    console.log("Save response:", res);
+
+    if (res.success) {
         alert("Password Saved");
-        localStorage.setItem("passwords", JSON.stringify(json))
+        showPasswords();
+
+        // Clear form fields
+        document.getElementById("website").value = "";
+        document.getElementById("username").value = "";
+        document.getElementById("password").value = "";
+        document.getElementById("comment").value = "";
     }
-    else {
-        let json = JSON.parse(localStorage.getItem("passwords"))
-        json.push({ website: website.value, username: username.value, password: password.value, comment:comment.value})
-        alert("Password Saved");
-        localStorage.setItem("passwords", JSON.stringify(json))
-    }
+    // if (passwords == null) {
+    //     let json = []
+    //     json.push({website: website.value, username: username.value, password: password.value, comment:comment.value})
+    //     alert("Password Saved");
+    //     localStorage.setItem("passwords", JSON.stringify(json))
+    // }
+    // else {
+    //     let json = JSON.parse(localStorage.getItem("passwords"))
+    //     json.push({ website: website.value, username: username.value, password: password.value, comment:comment.value})
+    //     alert("Password Saved");
+    //     localStorage.setItem("passwords", JSON.stringify(json))
+    // }
     showPasswords()
 })
