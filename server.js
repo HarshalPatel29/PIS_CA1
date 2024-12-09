@@ -7,6 +7,9 @@ dotenv.config();
 const app = express()
 const port = 3000
 
+// middleware
+app.use(express.json());
+app.use(express.static(path.join(__dirname)));
 
 // Connection URL
 const url = 'mongodb://localhost:27017';
@@ -53,6 +56,7 @@ app.post('/', async (req, res)=>{
     res.send({ success : true, result: findResult})
 })
 
+// delete a password
 app.delete('/passwords', async (req,res)=>{
   const { website } = req.body;
   const db = client.db(dbName);
@@ -63,6 +67,8 @@ app.delete('/passwords', async (req,res)=>{
   res.json({ success: true, result });
 })
 
+connectToMongoDB().then(()=>{
 app.listen(port, () => {
   console.log(`PasX app listening on port http://localhost:${port}`)
-})
+});
+});
