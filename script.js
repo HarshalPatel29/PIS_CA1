@@ -43,34 +43,35 @@ const editPassword = (website, username, password, comment) => {
 
 // Logic to fill the table
 const showPasswords = async () => {
-    try{
+    try {
         console.log("Attempting to fetch passwords");
 
         let response = await fetch("/passwords", {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json"
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+
+        console.log("Fetch response status:", response.status);
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error("Response error text:0, errorText")
+            throw new Error(`Http error! status: ${response.status}`)
         }
-    });
 
-    console.log("Fetch response status:", response.status);
+        let passwords = await response.json();
+        console.log("Fetched passwords:", passwords);
 
-    if (!response.ok){
-        const errorText = await response.text();
-        console.error("Response error text:0, errorText")
-        throw new Error (`Http error! status: ${response.status}`)
-    }
 
-    let passwords = await response.json();
-    console.log("Fetched passwords:", passwords);
-
-    if (passwords.length === 0) {
-        console.log("No passwords found");
-        tb.innerHTML = "No Data to show";
-        return;
-    }
-    //    Clear existing table content
-    tb.innerHTML = `<tr>
+        if (passwords.length === 0) {
+            console.log("No passwords found");
+            tb.innerHTML = "No Data to show";
+            return;
+        }
+        //    Clear existing table content
+        tb.innerHTML = `<tr>
         <th>Website</th>
         <th>Username</th>
         <th>Password</th>
@@ -79,9 +80,9 @@ const showPasswords = async () => {
         <th>Edit</th>
     </tr> `
 
-    passwords.forEach((element) => {
-        console.log("Processing password:", element);
-        tb.innerHTML += `<tr>
+        passwords.forEach((element) => {
+            console.log("Processing password:", element);
+            tb.innerHTML += `<tr>
             <td>${element.website} <img onclick="copyText('${element.website}')" src="./copy.svg" alt="Copy Button" width="10" height="10"></td>
             <td>${element.username} <img onclick="copyText('${element.username}')" src="./copy.svg" alt="Copy Button" width="10" height="10"></td>
             <td>${maskPassword(element.password)} <img onclick="copyText('${element.password}')" src="./copy.svg" alt="Copy Button" width="10" height="10"></td>
@@ -89,11 +90,17 @@ const showPasswords = async () => {
             <td><button class="btnsm" onclick="deletePassword('${element.website}')">Delete</button></td>
             <td><button class="btnsm" onclick="editPassword('${element.website}', '${element.username}', '${element.password}', '${element.comment || ''}')">Edit</button></td>
         </tr>`;
-    });
+        });
+    } catch (error) {
+        console.error("Complete erroe details:", error)
+        alert("Failed to load passwords: " + error.message)
+
+    }
+
 }
 
 // Submit event listener
-document.querySelector(".btn").addEventListener("click", async (e) => {
+document.querySelector(".btn")?.addEventListener("click", async (e) => {
     e.preventDefault()
 
     const website = document.getElementById("website").value;
