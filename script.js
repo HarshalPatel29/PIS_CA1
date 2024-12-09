@@ -92,12 +92,17 @@ const showPasswords = async () => {
         </tr>`;
         });
     } catch (error) {
-        console.error("Complete erroe details:", error)
+        console.error("Complete error details:", error)
         alert("Failed to load passwords: " + error.message)
 
     }
-
 }
+
+// Initial load of passwords
+document.addEventListener('DOMContentLoaded', () => {
+    console.log("DOM fully loaded and parsed");
+    showPasswords();
+});
 
 // Submit event listener
 document.querySelector(".btn")?.addEventListener("click", async (e) => {
