@@ -45,15 +45,21 @@ app.get('/passwords', async (req, res) => {
 });
 
 // save a passwords
-app.post('/', async (req, res)=>{
+app.post('/passwords', async (req, res)=>{
+  try{
     const {website, username, password, comment} = res.body;
     const db = client.db(dbName);
     const collection = db.collection('passwords');
 
     // removes exiting entry for the website
     await collection.deleteOne({website});
-    const findResult = await collection.insertOne(password)
-    res.send({ success : true, result: findResult})
+
+    // insert new password
+    const result = await collection.insertOne({ website, username, password, comment })
+    res.json({success: true, result});
+  }catch(error){
+    res.status(500).json({success: false, error: error.message});
+  }
 })
 
 // delete a password
