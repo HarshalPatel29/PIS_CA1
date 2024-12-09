@@ -70,6 +70,12 @@ const showPasswords = async () => {
         let passwords = await response.json();
         console.log("Fetched passwords:", passwords);
 
+        let tb = document.querySelector("table");
+        if (!tb) {
+            console.error("Table element not found");
+            return;
+        }
+
 
         if (passwords.length === 0) {
             console.log("No passwords found");
