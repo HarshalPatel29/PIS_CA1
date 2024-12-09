@@ -43,23 +43,33 @@ const editPassword = (website, username, password, comment) => {
 
 // Logic to fill the table
 const showPasswords = async () => {
-    let response = await fetch("/passwords", {
-    method: "GET",
-        headers: {
-        "Content-Type": "application/json"
-    }
-   });
+    try{
+        console.log("Attempting to fetch passwords");
 
-   console.log("Fetch response status:", response.status);
-    
-   let passwords = await response.json();
-   
-   if(passwords.length === 0){
-    console.log("No passwords found");
-    tb.innerHTML = "No Data to show";
-    return;
-   }
-//    Clear existing table content
+        let response = await fetch("/passwords", {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    });
+
+    console.log("Fetch response status:", response.status);
+
+    if (!response.ok){
+        const errorText = await response.text();
+        console.error("Response error text:0, errorText")
+        throw new Error (`Http error! status: ${response.status}`)
+    }
+
+    let passwords = await response.json();
+    console.log("Fetched passwords:", passwords);
+
+    if (passwords.length === 0) {
+        console.log("No passwords found");
+        tb.innerHTML = "No Data to show";
+        return;
+    }
+    //    Clear existing table content
     tb.innerHTML = `<tr>
         <th>Website</th>
         <th>Username</th>
@@ -68,32 +78,19 @@ const showPasswords = async () => {
         <th>Delete</th>
         <th>Edit</th>
     </tr> `
-    let arr = JSON.parse(data);
-    let str = ""
-    for (let index = 0; index < arr.length; index++) {
-        const element = arr[index];
 
-        str += `<tr>
-    <td>${element.website} <img onclick="copyText('${element.website}')" src="./copy.svg" alt="Copy Button" width="10" width="10" height="10">
-    </td>
-    <td>${element.username} <img onclick="copyText('${element.username}')" src="./copy.svg" alt="Copy Button" width="10" width="10" height="10">
-    </td>
-    <td>${maskPassword(element.password)} <img onclick="copyText('${element.password}')" src="./copy.svg" alt="Copy Button" width="10" width="10" height="10">
-    </td>
-    <td>${element.comment}</td>
-    <td><button class="btnsm" onclick="deletePassword('${element.website}')">Delete</button></td>
-    <td><button class="btnsm" onclick="editPassword('${element.website}', '${element.username}', '${element.password}', '${element.comment}')">Edit</button></td>
-    </tr>`
-    }
-    tb.innerHTML = tb.innerHTML + str
-
+    passwords.forEach((element) => {
+        console.log("Processing password:", element);
+        tb.innerHTML += `<tr>
+            <td>${element.website} <img onclick="copyText('${element.website}')" src="./copy.svg" alt="Copy Button" width="10" height="10"></td>
+            <td>${element.username} <img onclick="copyText('${element.username}')" src="./copy.svg" alt="Copy Button" width="10" height="10"></td>
+            <td>${maskPassword(element.password)} <img onclick="copyText('${element.password}')" src="./copy.svg" alt="Copy Button" width="10" height="10"></td>
+            <td>${element.comment || ''}</td>
+            <td><button class="btnsm" onclick="deletePassword('${element.website}')">Delete</button></td>
+            <td><button class="btnsm" onclick="editPassword('${element.website}', '${element.username}', '${element.password}', '${element.comment || ''}')">Edit</button></td>
+        </tr>`;
+    });
 }
-website.value = ""
-username.value = ""
-password.value = ""
-comment.value = ""
-}
-showPasswords()
 
 // Submit event listener
 document.querySelector(".btn").addEventListener("click", async (e) => {
