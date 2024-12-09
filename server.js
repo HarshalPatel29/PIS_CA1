@@ -4,9 +4,15 @@ const dotenv = require('dotenv');
 const path = require('path');
 dotenv.config();
 
+const app = express()
+const port = 3000
+
+
 // Connection URL
 const url = 'mongodb://localhost:27017';
 const client = new MongoClient(url);
+// Database Name
+const dbName = 'passpax';
 
 async function connectToMongoDB() {
   try {
@@ -17,12 +23,6 @@ async function connectToMongoDB() {
       process.exit(1);
   }
 }
-
-// Database Name
-const dbName = 'passpax';
-
-const app = express()
-const port = 3000
 
 // index.html
 app.get('/', (req, res) => {
@@ -51,6 +51,16 @@ app.post('/', async (req, res)=>{
     await collection.deleteOne({website});
     const findResult = await collection.insertOne(password)
     res.send({ success : true, result: findResult})
+})
+
+app.delete('/passwords', async (req,res)=>{
+  const { website } = req.body;
+  const db = client.db(dbName);
+  const collection = db.collection('passwords');
+  
+  const result = await collection.deleteOne({ website });
+  
+  res.json({ success: true, result });
 })
 
 app.listen(port, () => {
