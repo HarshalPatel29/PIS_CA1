@@ -20,16 +20,22 @@ function maskPassword(pass) {
     return "*".repeat(pass.length)
 }
 
-const deletePassword = (website) => {
-    let data = localStorage.getItem("passwords")
-    let arr = JSON.parse(data);
-    arrUpdated = arr.filter((e) => {
-        return e.website != website
-    })
-    localStorage.setItem("passwords", JSON.stringify(arrUpdated))
-    alert(`Successfully deleted ${website}'s password`)
-    showPasswords()
-
+const deletePassword = async (website) => {
+    try {
+        let req = await fetch("/passwords", {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ website })
+        })
+        let res = await req.json();
+        if (res.success) {
+            alert(`Successfully deleted ${website}'s password`)
+            showPasswords()
+        }
+    } catch (error) {
+        console.log("Delete password error:", error)
+        alert("Error deleting password");
+    }
 }
 
 const editPassword = (website, username, password, comment) => {
