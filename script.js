@@ -83,13 +83,27 @@ const showPasswords = () => {
     comment.value = ""
 }
 showPasswords()
+
+// Submit event listener
 document.querySelector(".btn").addEventListener("click", async (e)=> {
     e.preventDefault()
-    console.log("Clicked....")
-    console.log(username.value, password.value)
-    let req = fetch("http://localhost:3000/")
-    let passwords = await req.json()
-    console.log(passwords)
+
+    const website = document.getElementById("website").value;
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
+    const comment = document.getElementById("comment").value;
+     
+    // Validate inputs
+    if(!website || !username || !password){
+        alert("Please fill in the website, username and password")
+        return;
+    }
+
+    let req = await fetch("/passwords", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ website, username, password, comment })
+    });
 
     let res = await req.json();
     console.log("Save response:", res);
@@ -104,17 +118,5 @@ document.querySelector(".btn").addEventListener("click", async (e)=> {
         document.getElementById("password").value = "";
         document.getElementById("comment").value = "";
     }
-    // if (passwords == null) {
-    //     let json = []
-    //     json.push({website: website.value, username: username.value, password: password.value, comment:comment.value})
-    //     alert("Password Saved");
-    //     localStorage.setItem("passwords", JSON.stringify(json))
-    // }
-    // else {
-    //     let json = JSON.parse(localStorage.getItem("passwords"))
-    //     json.push({ website: website.value, username: username.value, password: password.value, comment:comment.value})
-    //     alert("Password Saved");
-    //     localStorage.setItem("passwords", JSON.stringify(json))
-    // }
     showPasswords()
 })
