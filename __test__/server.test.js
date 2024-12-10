@@ -68,8 +68,28 @@ const createTestServer = () => {
       
       res.json({ success: true, result });
   });
+  
+  app.delete('/passwords', async (req, res) => {
+    try {
+      const { website } = req.body;
 
-  return app;
+      // Validate website is provided
+      if (!website) {
+        return res.status(400).json({ 
+          success: false, 
+          error: 'Website is required for deletion' 
+        });
+      }
+
+      mockCollection.deleteOne.mockResolvedValue({ deletedCount: 1 });
+      
+      const result = await mockCollection.deleteOne({ website });
+      res.json({ success: true, result });
+    } catch (error) {
+      res.status(500).json({ success: false, error: error.message });
+    }
+  });
+ return app;
 };
 
 describe('Password Manager API', () => {
@@ -143,4 +163,39 @@ describe('Password Manager API', () => {
   });
 });
 
+describe('DELETE /passwords', () => {
+  it('should delete a password by website', async () => {
+    try {
+      const response = await request(app)
+        .delete('/passwords')
+        .send({ website: 'test.com' });
+      
+      console.log('DELETE /passwords response:', response.status, response.body);
+      
+      expect(response.status).toBe(200);
+      expect(response.body).toHaveProperty('success', true);
+    } catch (error) {
+      logTestError(error);
+      throw error;
+    }
+  });
+
+  it('should fail to delete password without website', async () => {
+    try {
+      const response = await request(app)
+        .delete('/passwords')
+        .send({});
+      
+      console.log('DELETE /passwords incomplete response:', response.status, response.body);
+      
+      // Expecting a 400 Bad Request for missing website
+      expect(response.status).toBe(400);
+      expect(response.body).toHaveProperty('success', false);
+      expect(response.body).toHaveProperty('error');
+    } catch (error) {
+      logTestError(error);
+      throw error;
+    }
+  });
+});
 });
