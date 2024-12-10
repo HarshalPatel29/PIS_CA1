@@ -2,6 +2,7 @@ const express = require('express')
 const { MongoClient } = require('mongodb');
 const dotenv = require('dotenv');
 const path = require('path');
+
 dotenv.config();
 
 const app = express()
@@ -47,7 +48,7 @@ app.get('/passwords', async (req, res) => {
 // save a passwords
 app.post('/passwords', async (req, res) => {
   try {
-    const { website, username, password, comment } = res.body;
+    const { website, username, password, comment } = req.body;
     const db = client.db(dbName);
     const collection = db.collection('passwords');
 
