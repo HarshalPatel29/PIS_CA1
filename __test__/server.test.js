@@ -47,3 +47,26 @@ const createTestServer = () => {
   return app;
 };
 
+describe('Password Manager API', () => {
+  let app;
+
+  beforeEach(() => {
+    // Reset all mocks before the test
+    jest.clearAllMocks();
+    app = createTestServer();
+  });
+  
+  describe('GET /passwords', () => {
+    it('should retrieve all passwords', async () => {
+        const response = await request(app).get('/passwords');
+        
+        console.log('GET /passwords response:', response.status, response.body);
+        
+        expect(response.status).toBe(200);
+        expect(response.body).toBeInstanceOf(Array);
+        expect(response.body[0]).toHaveProperty('website', 'test.com');
+        expect(response.body[0]).toHaveProperty('username', 'testuser');
+      
+    });
+  });
+});
