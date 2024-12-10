@@ -44,6 +44,31 @@ const createTestServer = () => {
       res.status(500).json({ success: false, error: error.message });
     }
   });
+
+  app.post('/passwords', async (req, res) => {
+      const { website, username, password, comment } = req.body;
+
+      // Input validation
+      if (!website || !username || !password) {
+        return res.status(400).json({ 
+          success: false, 
+          error: 'Website, username, and password are required' 
+        });
+      }
+
+      mockCollection.deleteOne.mockResolvedValue({});
+      mockCollection.insertOne.mockResolvedValue({ 
+        insertedId: 'mockId' 
+      });
+
+      await mockCollection.deleteOne({ website });
+      const result = await mockCollection.insertOne({ 
+        website, username, password, comment 
+      });
+      
+      res.json({ success: true, result });
+  });
+
   return app;
 };
 
@@ -68,5 +93,54 @@ describe('Password Manager API', () => {
         expect(response.body[0]).toHaveProperty('username', 'testuser');
       
     });
+ });
+
+ describe('POST /passwords', () => {
+  it('should save a new password', async () => {
+    try {
+      const newPassword = {
+        website: 'example.com',
+        username: 'newuser',
+        password: 'newpassword',
+        comment: 'Test comment'
+      };
+
+      const response = await request(app)
+        .post('/passwords')
+        .send(newPassword);
+      
+      console.log('POST /passwords response:', response.status, response.body);
+      
+      expect(response.status).toBe(200);
+      expect(response.body).toHaveProperty('success', true);
+      expect(response.body).toHaveProperty('result');
+    } catch (error) {
+      logTestError(error);
+      throw error;
+    }
   });
+
+  it('should fail to save password with missing required fields', async () => {
+    try {
+      const incompletePassword = {
+        website: 'incomplete.com'
+      };
+
+      const response = await request(app)
+        .post('/passwords')
+        .send(incompletePassword);
+      
+      console.log('POST /passwords incomplete response:', response.status, response.body);
+      
+      // Expect a 400 Bad Request for missing required fields
+      expect(response.status).toBe(400);
+      expect(response.body).toHaveProperty('success', false);
+      expect(response.body).toHaveProperty('error');
+    } catch (error) {
+      logTestError(error);
+      throw error;
+    }
+  });
+});
+
 });
