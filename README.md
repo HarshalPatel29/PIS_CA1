@@ -37,7 +37,9 @@ PasX is a secure web-based password management application that allows users to 
 - Database Name: passpax
   - Collection: passwords
   - Stores password entries with fields:( website, username, password, comment )
-### Testing: 
+- I have used MongoDB compass application: To start the Mongodb Connection open path of the application in the terminal and then run 'mongod' command.
+
+### Testing
 - Jest: npm install --save-dev jest 
 - Supertest: npm install --save-dev jest supertest
 
