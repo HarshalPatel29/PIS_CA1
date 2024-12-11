@@ -1,5 +1,5 @@
 ![image](https://github.com/user-attachments/assets/ffdfddb6-3ea7-4c99-85e5-3929b2ba1b17)
-
+  
 # PasX - Personal Password Manager
 ## Project Overview
 PasX is a secure web-based password management application that allows users to store, edit, and delete passwords for different websites. The application uses a modern web stack with user-friendly design.
@@ -60,6 +60,19 @@ npm test
 
 ### Unit Testing
 ![Screenshot 2024-12-10 162615](https://github.com/user-attachments/assets/a6025b53-6bcd-4c9f-876b-7c0f84a41723)
+
+## This is a password management application that allows users to:
+- Save new passwords
+- View existing passwords
+- Edit existing passwords
+- Delete passwords
+- Copy website, username, and password to clipboard
+
+## Future Improvements
+- Implement encryption for stored passwords
+- Add user authentication
+- Implement password strength checker
+- Create a more robust error handling mechanism
 
 
 
